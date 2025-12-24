@@ -1,0 +1,151 @@
+/* Global base */
+:root {
+  color-scheme: dark;
+  --page-bg: #000;
+  --text: #f1f1f1;
+  --muted: rgba(241, 241, 241, 0.72);
+
+  /* Image band defaults (overridable per component instance) */
+  --band-max-width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+main.page {
+  min-height: 100%;
+}
+
+header.hero {
+  padding-block: clamp(56px, 10svh, 140px);
+  padding-inline: clamp(20px, 4vw, 56px);
+  text-align: center;
+}
+
+header.hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+header.hero p {
+  margin: 0 auto;
+  max-width: 64ch;
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 20px);
+}
+
+/* Image band
+   Layers (back → front):
+   1) ::before  - blurred extension background (same image via --img)
+   2) ::after   - top/bottom fade-to-black gradient
+   3) .image-band__img - sharp foreground <img> (never filtered) */
+.image-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #000;
+
+  /* Extension space above/below the sharp image */
+  padding-block: var(--band-extension, 16svh);
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+
+  display: grid;
+  place-items: center;
+}
+
+.image-band::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+
+  /* Overscan prevents blur edges from being clipped */
+  inset: -40% 0;
+
+  background-image: var(--img);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  filter: blur(var(--band-blur, 50px)) brightness(var(--band-brightness, 0.55));
+  transform: scale(1.2);
+}
+
+.image-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  /* Fade the extension into the global black background */
+  background: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0) 32%,
+    rgba(0, 0, 0, 0) 68%,
+    #000 100%
+  );
+}
+
+.image-band__img {
+  position: relative;
+  z-index: 2;
+  display: block;
+
+  width: 100%;
+  max-width: var(--band-max-width, 100%);
+  height: var(--band-height, auto);
+
+  object-fit: var(--band-fit, contain);
+}
+
+/* Text blocks */
+.text-block {
+  padding-block: clamp(64px, 12svh, 180px);
+  padding-inline: clamp(20px, 4vw, 56px);
+}
+
+.text-block__inner {
+  max-width: 900px;
+  margin-inline: auto;
+  display: grid;
+  gap: 14px;
+}
+
+.text-block h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.text-block p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 18px);
+}
