@@ -7,6 +7,7 @@ export interface Props {
   extension?: string;
   blur?: string;
   brightness?: string;
+  saturate?: string;
   loading?: "lazy" | "eager";
   class?: string;
 }
@@ -16,9 +17,10 @@ const {
   alt,
   fit = "contain",
   height = "auto",
-  extension = "clamp(90px, 14svh, 240px)",
-  blur = "50px",
-  brightness = "0.55",
+  extension = "clamp(120px, 18svh, 360px)",
+  blur = "32px",
+  brightness = "0.96",
+  saturate = "1.12",
   loading = "lazy",
   class: className,
 } = Astro.props;
@@ -26,7 +28,7 @@ const {
 
 <section
   class:list={["image-band", className]}
-  style={`--img: url("${src}"); --band-fit: ${fit}; --band-height: ${height}; --band-extension: ${extension}; --band-blur: ${blur}; --band-brightness: ${brightness};`}
+  style={`--img: url("${src}"); --band-fit: ${fit}; --band-height: ${height}; --band-extension: ${extension}; --band-blur: ${blur}; --band-brightness: ${brightness}; --band-saturate: ${saturate};`}
 >
   <img
     class="image-band__img"

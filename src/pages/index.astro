@@ -2,6 +2,54 @@
 import "../styles/global.css";
 import ImageBand from "../components/ImageBand.astro";
 import TextBlock from "../components/TextBlock.astro";
+import circlesCopyRaw from "../../circles-copy.md?raw";
+
+type CircleCopy = {
+  title: string;
+  description: string;
+};
+
+const circleImageByTitle = {
+  Limbo: "/images/01.png",
+  Lust: "/images/02.png",
+  Gluttony: "/images/03.png",
+  Greed: "/images/04.png",
+  Wrath: "/images/05.png",
+  Heresy: "/images/06.webp",
+  Violence: "/images/07.webp",
+  Fraud: "/images/08.png",
+  Treachery: "/images/09.png",
+} as const;
+
+const circles = parseCircleCopy(circlesCopyRaw)
+  .map((circle) => {
+    const src = circleImageByTitle[circle.title as keyof typeof circleImageByTitle];
+    return src ? { ...circle, src } : null;
+  })
+  .filter((circle): circle is CircleCopy & { src: string } => circle !== null);
+
+function parseCircleCopy(markdown: string): CircleCopy[] {
+  const blocks = markdown
+    .split(/^##\s+/m)
+    .map((block) => block.trim())
+    .filter(Boolean);
+
+  const circles: CircleCopy[] = [];
+  for (const block of blocks) {
+    const lines = block
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    const title = lines[0];
+    const rest = lines.slice(1).join(" ");
+    const dashMatch = rest.match(/—\s*(.*)$/);
+    const description = (dashMatch ? dashMatch[1] : rest).trim();
+
+    if (title && description) circles.push({ title, description });
+  }
+  return circles;
+}
 ---
 
 <html lang="en">
@@ -21,7 +69,7 @@ import TextBlock from "../components/TextBlock.astro";
         </p>
       </header>
 
-      <ImageBand src="/images/00.png" alt="Heaven" />
+      <ImageBand class="image-band--first" src="/images/00.png" alt="Heaven" />
       <TextBlock>
         <h2>Heaven</h2>
         <p>A brief stillness before the descent begins.</p>
@@ -29,86 +77,17 @@ import TextBlock from "../components/TextBlock.astro";
 
       <ImageBand src="/images/Tree.png" alt="Tree" />
 
-      <ImageBand src="/images/01.png" alt="Limbo" />
-      <TextBlock>
-        <h2>Limbo</h2>
-        <p>
-          A place of endless waiting where nothing hurts enough to end and
-          nothing matters enough to begin.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/02.png" alt="Lust" />
-      <TextBlock>
-        <h2>Lust</h2>
-        <p>
-          Desire loops endlessly, promising intimacy and satisfaction while
-          delivering only hunger without fulfillment.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/03.png" alt="Gluttony" />
-      <TextBlock>
-        <h2>Gluttony</h2>
-        <p>
-          Consumption continues long after pleasure is gone, turning excess into
-          exhaustion and need into punishment.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/04.png" alt="Greed" />
-      <TextBlock>
-        <h2>Greed</h2>
-        <p>
-          Possession becomes burden as nothing can be released and worth is
-          measured only by accumulation.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/05.png" alt="Wrath" />
-      <TextBlock>
-        <h2>Wrath</h2>
-        <p>
-          Anger feeds on reaction, escalating endlessly without resolution,
-          direction, or relief.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/06.webp" alt="Heresy" />
-      <TextBlock>
-        <h2>Heresy</h2>
-        <p>
-          Truth is delivered fully formed, unquestioned and closed, replacing
-          thought with certainty.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/07.webp" alt="Violence" />
-      <TextBlock>
-        <h2>Violence</h2>
-        <p>
-          Order is maintained through force, where suffering is normalized and
-          obedience replaces will.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/08.png" alt="Fraud" />
-      <TextBlock>
-        <h2>Fraud</h2>
-        <p>
-          Identity is endlessly optimized for approval, hiding reality behind
-          polished illusions that never satisfy.
-        </p>
-      </TextBlock>
-
-      <ImageBand src="/images/09.png" alt="Treachery" />
-      <TextBlock>
-        <h2>Treachery</h2>
-        <p>
-          Trust is performed publicly while betrayal is prepared in silence,
-          freezing all genuine connection.
-        </p>
-      </TextBlock>
+      {
+        circles.map(({ title, description, src }) => (
+          <>
+            <ImageBand src={src} alt={title} />
+            <TextBlock>
+              <h2>{title}</h2>
+              <p>{description}</p>
+            </TextBlock>
+          </>
+        ))
+      }
 
       <ImageBand src="/images/10.png" alt="Lucifer" />
       <TextBlock>
