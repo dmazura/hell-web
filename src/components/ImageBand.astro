@@ -14,15 +14,11 @@ const {
 } = Astro.props;
 ---
 
-<section
-  class:list={["image-band", className]}
->
-  <img
-    class="image-band__img"
-    src={src}
-    alt={alt}
-    loading={loading}
-    decoding="async"
-    draggable="false"
-  />
-</section>
+<img
+  class:list={["section-image", className]}
+  src={src}
+  alt={alt}
+  loading={loading}
+  decoding="async"
+  draggable="false"
+/>

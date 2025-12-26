@@ -1,12 +1,73 @@
 /* Global base */
 :root {
   color-scheme: dark;
-  --page-bg: #000;
-  --text: #f1f1f1;
-  --muted: rgba(241, 241, 241, 0.72);
+  /* ---------- Dark Surfaces (no pure black) ---------- */
+  --bg-base: #0e0f12; /* page background */
+  --bg-elevated: #15171c; /* cards/sections */
+  --bg-overlay: #1c1f26; /* modals/dropdowns */
 
-  /* Image band defaults (overridable per component instance) */
-  --band-max-width: 100%;
+  /* ---------- Text (no pure white) ---------- */
+  --text-primary: #f2f4f8;
+  --text-secondary: #b5bbc6;
+  --text-muted: #7a8190;
+  --text-disabled: #4a4f5c;
+
+  /* ---------- Spacing (8px-based + dense steps) ---------- */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 56px;
+  --space-12: 64px;
+  --space-14: 72px;
+  --space-16: 80px;
+
+  /* ---------- Typography (Inter) ---------- */
+  --font-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+
+  /* Font weights (aliases) */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Type scale: sizes (px) */
+  --text-size-caption: 12px;
+  --text-size-body-small: 14px;
+  --text-size-body: 16px;
+  --text-size-h4: 18px;
+  --text-size-h3: 22px;
+  --text-size-h2: 28px;
+  --text-size-h1: 36px;
+
+  /* Type scale: line-heights (px) */
+  --text-leading-caption: 16px;
+  --text-leading-body-small: 20px;
+  --text-leading-body: 24px;
+  --text-leading-h4: 26px;
+  --text-leading-h3: 30px;
+  --text-leading-h2: 36px;
+  --text-leading-h1: 44px;
+
+  /* Recommended weights per role */
+  --text-weight-caption: 500;
+  --text-weight-body-small: 400;
+  --text-weight-body: 400;
+  --text-weight-h4: 600;
+  --text-weight-h3: 650;
+  --text-weight-h2: 700;
+  --text-weight-h1: 750;
+
+  /* Leading (aliases) */
+  --text-leading-tight: var(--text-leading-caption);
+  --text-leading-loose: var(--text-leading-body-small);
 }
 
 *,
@@ -22,11 +83,12 @@ body {
 
 body {
   margin: 0;
-  background: var(--page-bg);
-  color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  line-height: 1.6;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-size-body);
+  line-height: var(--text-leading-body);
+  font-weight: var(--text-weight-body);
   text-rendering: optimizeLegibility;
 }
 
@@ -40,58 +102,68 @@ main.page {
 }
 
 header.hero {
-  padding-block: clamp(56px, 10svh, 140px);
-  padding-inline: clamp(20px, 4vw, 56px);
+  padding-block: var(--space-14);
+  padding-inline: var(--space-7);
   text-align: center;
 }
 
 header.hero h1 {
-  margin: 0 0 12px;
-  font-size: clamp(40px, 6vw, 72px);
-  line-height: 1.05;
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-size-h1);
+  line-height: var(--text-leading-h1);
+  font-weight: var(--text-weight-h1);
   letter-spacing: -0.03em;
 }
 
 header.hero p {
   margin: 0 auto;
   max-width: 64ch;
-  color: var(--muted);
-  font-size: clamp(16px, 2.2vw, 20px);
+  color: var(--text-secondary);
+  font-size: var(--text-size-body-small);
+  line-height: var(--text-leading-body-small);
+  font-weight: var(--text-weight-body-small);
 }
 
-/* Image band (plain images only) */
-.image-band {
-  background: #000;
+/* Section layout: text above image */
+.content-section {
+  padding-block-start: var(--space-0);
+  padding-block-end: var(--space-12); /* 64px: strong separation */
 }
 
-.image-band__img {
-  display: block;
-  width: 100%;
-  height: auto;
+.content-section:first-of-type {
+  padding-block-start: var(--space-8); /* 40px: section start */
 }
 
-/* Text blocks */
-.text-block {
-  padding-block: clamp(64px, 12svh, 180px);
-  padding-inline: clamp(20px, 4vw, 56px);
+.section-text {
+  padding-inline: var(--space-7);
+  margin-block-end: var(--space-5); /* 20px: tight text → image */
 }
 
-.text-block__inner {
+.section-text__inner {
   max-width: 900px;
   margin-inline: auto;
   display: grid;
-  gap: 14px;
+  gap: var(--space-2); /* 8px: title → description */
 }
 
-.text-block h2 {
+.section-text h2 {
   margin: 0;
-  font-size: clamp(22px, 3vw, 32px);
-  line-height: 1.15;
+  font-size: var(--text-size-h3);
+  line-height: var(--text-leading-h3);
+  font-weight: var(--text-weight-h3);
   letter-spacing: -0.01em;
 }
 
-.text-block p {
+.section-text p {
   margin: 0;
-  color: var(--muted);
-  font-size: clamp(16px, 2.2vw, 18px);
+  color: var(--text-secondary);
+  font-size: var(--text-size-body);
+  line-height: var(--text-leading-body);
+  font-weight: var(--text-weight-body);
+}
+
+.section-image {
+  display: block;
+  width: 100%;
+  height: auto;
 }

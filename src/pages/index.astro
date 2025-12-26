@@ -10,15 +10,15 @@ type CircleCopy = {
 };
 
 const circleImageByTitle = {
-  Limbo: "/images/01.png",
-  Lust: "/images/02.png",
-  Gluttony: "/images/03.png",
-  Greed: "/images/04.png",
-  Wrath: "/images/05.png",
-  Heresy: "/images/06.webp",
-  Violence: "/images/07.webp",
-  Fraud: "/images/08.png",
-  Treachery: "/images/09.png",
+  Limbo: "/images/01-Limbo.png",
+  Lust: "/images/02-Lust.png",
+  Gluttony: "/images/03-Gluttony.png",
+  Greed: "/images/04-Greed.png",
+  Wrath: "/images/05-Wrath.png",
+  Heresy: "/images/06-Heresy.png",
+  Violence: "/images/07-Violence.png",
+  Fraud: "/images/08-Fraud.png",
+  Treachery: "/images/09-Treachery.png",
 } as const;
 
 const circles = parseCircleCopy(circlesCopyRaw)
@@ -56,7 +56,7 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#0E0F12" />
     <title>Hell — Image-first Onepage</title>
   </head>
   <body>
@@ -69,29 +69,33 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
         </p>
       </header>
 
-      <ImageBand src="/images/00.png" alt="Heaven" />
-      <TextBlock>
-        <h2>Heaven</h2>
-        <p>A brief stillness before the descent begins.</p>
-      </TextBlock>
+      <section class="content-section">
+        <TextBlock>
+          <h2>Heaven</h2>
+          <p>A brief stillness before the descent begins.</p>
+        </TextBlock>
+        <ImageBand src="/images/00.png" alt="Heaven" />
+      </section>
 
       {
         circles.map(({ title, description, src }) => (
-          <>
-            <ImageBand src={src} alt={title} />
+          <section class="content-section">
             <TextBlock>
               <h2>{title}</h2>
               <p>{description}</p>
             </TextBlock>
-          </>
+            <ImageBand src={src} alt={title} />
+          </section>
         ))
       }
 
-      <ImageBand src="/images/10.png" alt="Lucifer" />
-      <TextBlock>
-        <h2>Lucifer</h2>
-        <p>The descent ends where all motion freezes.</p>
-      </TextBlock>
+      <section class="content-section">
+        <TextBlock>
+          <h2>Lucifer</h2>
+          <p>The descent ends where all motion freezes.</p>
+        </TextBlock>
+        <ImageBand src="/images/10.png" alt="Lucifer" />
+      </section>
     </main>
   </body>
 </html>
