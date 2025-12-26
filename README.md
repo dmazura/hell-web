@@ -1,7 +1,7 @@
 # Hell-web (Astro SSG)
 
 Minimal, image-first onepage built with **Astro (static output)** and **CSS-only** styling.  
-The core visual is an **ImageBand** that keeps the foreground image sharp while extending it above/below with a blurred background and a fade to black.
+The core visual is a simple **ImageBand** that renders full-width images with aspect ratio preserved.
 
 ## Requirements
 - Node.js (recommended: 18+)
@@ -25,21 +25,10 @@ Note: scripts set `ASTRO_TELEMETRY_DISABLED=1` to avoid writing global telemetry
 ## Images
 The page currently uses:
 - `/images/00.png` … `/images/10.png`
-- `/images/Tree.png` inserted between `00` and `01`
 
 To replace images, drop new files into `public/images/` and update `src/pages/index.astro` (title → image mapping lives there).
-
-## Image Band Effect
-Each `.image-band` renders:
-- a blurred extension layer (`::before`) reusing the same `--img`
-- a multi-stop fade-to-black overlay (`::after`) only in the extension area
-- a sharp foreground `<img>` with a feather mask so the boundary is invisible
-
-The first band uses `class="image-band--first"` to disable the top extension + top feather.
 
 ## ImageBand API
 `<ImageBand />` props:
 - `src` (required), `alt` (required)
-- `fit`: `"contain"` (default) or `"cover"`
-- `height`: CSS length (default `auto` to keep aspect ratio without cropping)
-- `extension`, `blur`, `brightness`, `saturate`: CSS values controlling the background extension look
+- `loading`: `"lazy"` (default) or `"eager"`

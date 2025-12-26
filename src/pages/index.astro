@@ -64,18 +64,16 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
       <header class="hero">
         <h1>Hell</h1>
         <p>
-          A minimalist, image-first onepage. Each image band reuses its own image
-          as a blurred extension that fades into black — CSS only.
+          A minimalist, image-first onepage. Stacked full-width images with text
+          blocks in between — CSS only.
         </p>
       </header>
 
-      <ImageBand class="image-band--first" src="/images/00.png" alt="Heaven" />
+      <ImageBand src="/images/00.png" alt="Heaven" />
       <TextBlock>
         <h2>Heaven</h2>
         <p>A brief stillness before the descent begins.</p>
       </TextBlock>
-
-      <ImageBand src="/images/Tree.png" alt="Tree" />
 
       {
         circles.map(({ title, description, src }) => (
