@@ -21,12 +21,20 @@ const circleImageByTitle = {
   Treachery: "/images/09-Treachery.webp",
 } as const;
 
+const circleStyleByTitle = {
+  Violence: "--pos: 40% 45%;",
+  Fraud: "--pos: 60% 45%;",
+} as const;
+
 const circles = parseCircleCopy(circlesCopyRaw)
   .map((circle) => {
     const src = circleImageByTitle[circle.title as keyof typeof circleImageByTitle];
-    return src ? { ...circle, src } : null;
+    const style = circleStyleByTitle[circle.title as keyof typeof circleStyleByTitle];
+    return src ? { ...circle, src, style } : null;
   })
-  .filter((circle): circle is CircleCopy & { src: string } => circle !== null);
+  .filter(
+    (circle): circle is CircleCopy & { src: string; style?: string } => circle !== null
+  );
 
 function parseCircleCopy(markdown: string): CircleCopy[] {
   const blocks = markdown
@@ -71,13 +79,18 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
       </section>
 
       {
-        circles.map(({ title, description, src }) => (
+        circles.map(({ title, description, src, style }) => (
           <section class="content-section">
             <TextBlock>
               <h2>{title}</h2>
               <p>{description}</p>
             </TextBlock>
-            <ImageBand class="section-image--feather" src={src} alt={title} />
+            <ImageBand
+              class="section-image--feather section-image--cinematic"
+              src={src}
+              alt={title}
+              style={style}
+            />
           </section>
         ))
       }
@@ -92,9 +105,10 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
 
       <section class="content-section">
         <ImageBand
-          class="section-image--feather"
+          class="section-image--feather section-image--cinematic"
           src="/images/11-lucifer-angel.webp"
           alt="Lucifer Angel"
+          style="--pos: 35% 45%;"
         />
       </section>
 
