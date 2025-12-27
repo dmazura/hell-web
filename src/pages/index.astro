@@ -66,6 +66,7 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
           class="section-image--feather-bottom"
           src="/images/00-Heaven.webp"
           alt="Heaven"
+          zoom={false}
         />
       </section>
 
@@ -105,5 +106,39 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
         />
       </section>
     </main>
+    <div class="zoom-overlay" data-zoom-overlay>
+      <img class="zoom-overlay__image" alt="" />
+    </div>
+    <script is:inline>
+      (() => {
+        const overlay = document.querySelector("[data-zoom-overlay]");
+        const zoomed = overlay?.querySelector("img");
+        if (!overlay || !zoomed) return;
+        const open = (img) => {
+          zoomed.src = img.currentSrc || img.src;
+          zoomed.alt = img.alt || "";
+          overlay.dataset.open = "true";
+          document.body.dataset.zoomOpen = "true";
+        };
+        const close = () => {
+          overlay.dataset.open = "false";
+          document.body.dataset.zoomOpen = "false";
+          zoomed.src = "";
+          zoomed.alt = "";
+        };
+        document.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target instanceof HTMLImageElement && target.dataset.zoom !== undefined) {
+            open(target);
+          }
+        });
+        overlay.addEventListener("click", (event) => {
+          if (event.target === overlay) close();
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") close();
+        });
+      })();
+    </script>
   </body>
 </html>
