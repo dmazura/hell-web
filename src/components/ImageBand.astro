@@ -5,6 +5,7 @@ export interface Props {
   loading?: "lazy" | "eager";
   class?: string;
   zoom?: boolean;
+  style?: string;
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   loading = "lazy",
   class: className,
   zoom = true,
+  style,
 } = Astro.props;
 ---
 
@@ -24,4 +26,5 @@ const {
   decoding="async"
   draggable="false"
   data-zoom={zoom ? "" : undefined}
+  style={style}
 />

@@ -142,6 +142,35 @@ main.page {
   height: auto;
 }
 
+.section-image--cinematic {
+  --vh: 60vh;
+  --pos: 50% 45%;
+  --fit: cover;
+
+  height: var(--vh);
+  object-fit: var(--fit);
+  object-position: var(--pos);
+}
+
+@media (max-height: 520px) {
+  .section-image--cinematic {
+    --vh: 55vh;
+  }
+}
+
+@media (min-width: 640px) {
+  .section-image--cinematic {
+    --vh: 55vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .section-image--cinematic {
+    --vh: 45vh;
+    --fit: var(--fit-lg, cover);
+  }
+}
+
 img[data-zoom] {
   cursor: zoom-in;
 }
