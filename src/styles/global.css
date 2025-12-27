@@ -127,7 +127,8 @@ header.hero p {
 /* Section layout: text above image */
 .content-section {
   padding-block-start: var(--space-0);
-  padding-block-end: var(--space-12); /* 64px: strong separation */
+  /* 64px base + 32px requested = 96px */
+  padding-block-end: calc(var(--space-12) + var(--space-7));
 }
 
 .content-section:first-of-type {
