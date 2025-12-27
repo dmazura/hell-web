@@ -24,7 +24,7 @@ Note: scripts set `ASTRO_TELEMETRY_DISABLED=1` to avoid writing global telemetry
 
 ## Images
 The page currently uses:
-- `/images/00.png` … `/images/10.png`
+- `/images/00-Heaven.webp` … `/images/12-Friends.webp`
 
 To replace images, drop new files into `public/images/` and update `src/pages/index.astro` (title → image mapping lives there).
 
