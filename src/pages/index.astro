@@ -3,6 +3,7 @@ import "../styles/global.css";
 import ImageBand from "../components/ImageBand.astro";
 import TextBlock from "../components/TextBlock.astro";
 import circlesCopyRaw from "../../circles-copy.md?raw";
+import circleDescriptionsRaw from "../../circle-description.md?raw";
 
 type CircleCopy = {
   title: string;
@@ -24,16 +25,22 @@ const circleImageByTitle = {
 const circleStyleByTitle = {
   Violence: "--pos: 40% 45%;",
   Fraud: "--pos: 60% 45%;",
+  Treachery:
+    "--pos: 35% 45%; --pos-lg: 50% 45%; --vh: 55vh; --vh-sm: 50vh; --vh-md: 50vh; --vh-lg: 40vh;",
 } as const;
+
+const circleCaptionByTitle = parseCircleDescriptions(circleDescriptionsRaw);
 
 const circles = parseCircleCopy(circlesCopyRaw)
   .map((circle) => {
     const src = circleImageByTitle[circle.title as keyof typeof circleImageByTitle];
     const style = circleStyleByTitle[circle.title as keyof typeof circleStyleByTitle];
-    return src ? { ...circle, src, style } : null;
+    const caption = circleCaptionByTitle[circle.title] ?? "";
+    return src ? { ...circle, src, style, caption } : null;
   })
   .filter(
-    (circle): circle is CircleCopy & { src: string; style?: string } => circle !== null
+    (circle): circle is CircleCopy & { src: string; style?: string; caption: string } =>
+      circle !== null
   );
 
 function parseCircleCopy(markdown: string): CircleCopy[] {
@@ -58,6 +65,26 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
   }
   return circles;
 }
+
+function parseCircleDescriptions(markdown: string): Record<string, string> {
+  const blocks = markdown
+    .split(/^###\s+/m)
+    .map((block) => block.trim())
+    .filter(Boolean);
+
+  const captions: Record<string, string> = {};
+  for (const block of blocks) {
+    const lines = block
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    const title = lines[0];
+    const caption = lines.slice(1).join(" ").trim();
+    if (title && caption) captions[title] = caption;
+  }
+  return captions;
+}
 ---
 
 <html lang="en">
@@ -79,7 +106,7 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
       </section>
 
       {
-        circles.map(({ title, description, src, style }) => (
+        circles.map(({ title, description, src, style, caption }) => (
           <section class="content-section">
             <TextBlock>
               <h2>{title}</h2>
@@ -91,6 +118,11 @@ function parseCircleCopy(markdown: string): CircleCopy[] {
               alt={title}
               style={style}
             />
+            {caption ? (
+              <div class="section-image-caption">
+                <div class="section-image-caption__inner">{caption}</div>
+              </div>
+            ) : null}
           </section>
         ))
       }
