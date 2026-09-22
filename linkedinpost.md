@@ -1,4 +1,4 @@
-🔥 Dantovo peklo jako vánoční mini projekt
+Dantovo peklo jako vánoční mini projekt
 
 Chtěl jsem se naučit generovat konzistentní vizuály v node-based editoru, ne jen náhodný hezký obrázek.
 
@@ -9,5 +9,6 @@ Postup byl jednoduchý:
 	•	skládat démony do scén
 	•	a nakonec vše poskládat na web jako jeden sestup dolů
 
+Výsledek hell.dominikmazura.cz
+
 K příspěvku dávám Luciferku jako clickbait 😈
-Výsledek je tady 👉 hell.dominikmazura.cz
